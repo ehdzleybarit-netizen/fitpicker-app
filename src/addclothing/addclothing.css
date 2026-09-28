@@ -1,0 +1,362 @@
+/* ========================================
+   ADD CLOTHING - MAIN CONTAINER
+   ======================================== */
+.add-clothing-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;           /* <-- WALANG SCROLL */
+}
+
+.add-clothing-card {
+  background: white;
+  border-radius: 12px;
+  padding: 4px 10px 4px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.add-clothing-card.dark-card {
+  background: #1e1e3a;
+}
+
+/* ========================================
+   HEADER - MALIIT
+   ======================================== */
+.add-clothing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #ecf0f1;
+  flex-shrink: 0;
+  height: 36px;               /* <-- MALIIT (dati 44px) */
+}
+
+.add-clothing-card.dark-card .add-clothing-header {
+  border-bottom-color: #2d2d5e;
+}
+
+.back-btn {
+  background: #ecf0f1;
+  color: #2c3e50;
+  border: none;
+  padding: 4px 10px;          /* <-- MALIIT */
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;            /* <-- MALIIT (dati 13px) */
+  cursor: pointer;
+  height: 30px;               /* <-- MALIIT (dati 36px) */
+}
+
+.back-btn.dark-btn {
+  background: #2d2d5e;
+  color: #e0e0ff;
+}
+
+.add-clothing-title {
+  font-size: 15px;            /* <-- MALIIT (dati 18px) */
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  text-align: center;
+  flex: 1;
+  height: 30px;               /* <-- MALIIT */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-clothing-title.dark-text {
+  color: #e0e0ff;
+}
+
+/* ========================================
+   CAMERA SECTION - MALAKI PA RIN (HINDI GALAW)
+   ======================================== */
+.camera-section {
+  flex: 6;                    /* <-- MALAKI PA RIN */
+  background: #f8f9fa;
+  border: 3px dashed #bdc3c7;
+  border-radius: 16px;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6px;         /* <-- MALIIT (dati 10px) */
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+}
+
+.camera-section.dark-camera {
+  background: #2a2a5a;
+  border-color: #4a4a7a;
+}
+
+.camera-section.has-image {
+  border: 3px solid #667eea;
+  border-style: solid;
+  padding: 0;
+}
+
+.camera-placeholder {
+  text-align: center;
+  color: #95a5a6;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.camera-placeholder span {
+  font-size: 48px;            /* <-- MALIIT (dati 64px) */
+  display: block;
+  margin-bottom: 8px;
+}
+
+.camera-placeholder p {
+  font-size: 14px;            /* <-- MALIIT */
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 4px 0;
+}
+
+.camera-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  border-radius: 13px;
+  margin: 0;
+  padding: 0;
+}
+
+.camera-preview.active {
+  display: block;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 13px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 13px;
+  background: #f0f0f0;
+}
+
+.remove-image {
+  position: absolute;
+  top: 8px;                   /* <-- MALIIT */
+  right: 8px;                 /* <-- MALIIT */
+  background: rgba(231, 76, 60, 0.95);
+  color: white;
+  border: none;
+  padding: 6px 14px;          /* <-- MALIIT */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;            /* <-- MALIIT */
+  font-weight: 600;
+  z-index: 10;
+}
+
+/* ========================================
+   CAMERA CONTROLS - MALIIT
+   ======================================== */
+.camera-controls {
+  display: flex;
+  gap: 6px;                   /* <-- MALIIT (dati 8px) */
+  flex-wrap: wrap;
+  margin-bottom: 6px;         /* <-- MALIIT (dati 10px) */
+  flex-shrink: 0;
+}
+
+.btn-camera,
+.btn-capture,
+.btn-close-camera,
+.btn-upload {
+  flex: 1;
+  padding: 8px 12px;          /* <-- MALIIT (dati 14px) */
+  border: none;
+  border-radius: 8px;         /* <-- MALIIT (dati 12px) */
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;            /* <-- MALIIT (dati 15px) */
+  text-align: center;
+  min-width: 60px;
+  height: 38px;               /* <-- MALIIT (dati 52px) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btn-camera {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btn-capture {
+  background: #2ecc71;
+  color: white;
+}
+
+.btn-close-camera {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-upload {
+  background: #3498db;
+  color: white;
+}
+
+/* ========================================
+   CLOTHING DETAILS - MALIIT
+   ======================================== */
+.clothing-details {
+  background: #f8f9fa;
+  padding: 6px 10px;          /* <-- MALIIT (dati 10px 14px) */
+  border-radius: 8px;
+  margin-bottom: 6px;         /* <-- MALIIT (dati 8px) */
+  flex-shrink: 0;
+  flex: 1;                    /* <-- SAKUPIN ANG NATITIRANG SPACE */
+  min-height: 0;              /* <-- IMPORTANTE */
+  overflow-y: auto;           /* <-- SCROLL SA LOOB LANG */
+}
+
+.clothing-details.dark-section {
+  background: #2a2a5a;
+}
+
+.clothing-details h3 {
+  color: #2c3e50;
+  margin-bottom: 4px;         /* <-- MALIIT (dati 8px) */
+  font-size: 12px;            /* <-- MALIIT (dati 14px) */
+}
+
+.clothing-details h3.dark-text {
+  color: #e0e0ff;
+}
+
+.form-group {
+  margin-bottom: 4px;         /* <-- MALIIT (dati 8px) */
+}
+
+.form-group label {
+  display: block;
+  font-size: 10px;            /* <-- MALIIT (dati 12px) */
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 2px;         /* <-- MALIIT */
+}
+
+.form-group label.dark-label {
+  color: #a0a0c0;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 5px 8px;           /* <-- MALIIT (dati 8px 12px) */
+  border: 2px solid #ecf0f1;
+  border-radius: 6px;         /* <-- MALIIT */
+  font-size: 12px;            /* <-- MALIIT (dati 14px) */
+  outline: none;
+  background: white;
+  color: #2c3e50;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #667eea;
+}
+
+.dark-input {
+  background: #1a1a3e !important;
+  border-color: #3d3d7e !important;
+  color: #e0e0ff !important;
+}
+
+.dark-select {
+  background: #1a1a3e !important;
+  border-color: #3d3d7e !important;
+  color: #e0e0ff !important;
+}
+
+.dark-select option {
+  background: #1a1a3e;
+  color: #e0e0ff;
+}
+
+/* ========================================
+   SAVE BUTTON - MALIIT
+   ======================================== */
+.btn-save {
+  width: 100%;
+  padding: 8px;               /* <-- MALIIT (dati 12px) */
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;            /* <-- MALIIT (dati 14px) */
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  height: 36px;               /* <-- MALIIT (dati 44px) */
+}
+
+/* ========================================
+   RESPONSIVE - MOBILE
+   ======================================== */
+@media (max-width: 480px) {
+  .camera-placeholder span {
+    font-size: 40px;
+  }
+  
+  .camera-placeholder p {
+    font-size: 12px;
+  }
+  
+  .btn-camera,
+  .btn-capture,
+  .btn-close-camera,
+  .btn-upload {
+    font-size: 12px;
+    height: 36px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}

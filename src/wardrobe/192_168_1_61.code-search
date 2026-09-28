@@ -1,0 +1,10 @@
+# Query: 192.168.1.61
+# Flags: CaseSensitive WordMatch RegExp
+
+2 results - 2 files
+
+src\login\login.jsx:
+  31:         url: 'http://192.168.2.8/fitpicker-api/login.php',
+
+src\register\register.jsx:
+  53:       const response = await fetch('http://192.168.2.8/fitpicker-api/register.php', {

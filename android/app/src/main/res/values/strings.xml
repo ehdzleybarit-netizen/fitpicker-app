@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">FitPicker</string>
+    <string name="title_activity_main">FitPicker</string>
+    <string name="package_name">com.fitpicker.app</string>
+    <string name="custom_url_scheme">com.fitpicker.app</string>
+</resources>

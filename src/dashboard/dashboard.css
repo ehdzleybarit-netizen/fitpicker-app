@@ -1,0 +1,655 @@
+/* ========================================
+   DASHBOARD CONTAINER
+   ======================================== */
+.dashboard-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  padding: 4px;
+  animation: fadeIn 0.5s ease-in;
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+.dashboard-container.dark-mode {
+  background: transparent;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 4px 10px 4px;
+  max-width: 100%;
+  width: 100%;
+  max-height: 100%;
+  height: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-card.dark-card {
+  background: #1e1e3a;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dashboard-card::-webkit-scrollbar {
+  width: 2px;
+}
+
+.dashboard-card::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+/* ========================================
+   HEADER - ISANG ROW
+   ======================================== */
+.dashboard-header {
+  display: flex;
+  flex-direction: row;             /* <-- ISANG ROW */
+  justify-content: center;         /* <-- GITNA ANG DEFAULT */
+  align-items: center;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #ecf0f1;
+  transition: border-color 0.3s ease;
+  gap: 6px;
+  flex-shrink: 0;
+  position: relative;              /* <-- PARA SA ABSOLUTE */
+  z-index: 100;
+  min-height: 40px;
+}
+
+.dashboard-card.dark-card .dashboard-header {
+  border-bottom-color: #2d2d5e;
+}
+
+/* ===== FITPICKER - GITNA ===== */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;         /* <-- GITNA */
+  width: 100%;                     /* <-- FULL WIDTH PARA GITNA */
+}
+
+.logo-icon {
+  font-size: 22px;                 /* <-- Paliitin */
+}
+
+.dashboard-title {
+  font-size: 20px;                 /* <-- Paliitin */
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease;
+}
+
+.dashboard-title.dark-text {
+  -webkit-text-fill-color: #e0e0ff;
+  background: none;
+  color: #e0e0ff;
+}
+
+/* ===== EMMAN - KALIWA (ABSOLUTE) ===== */
+.header-right {
+  position: absolute;              /* <-- ABSOLUTE */
+  left: 0;                         /* <-- KALIWA */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ========================================
+   PROFILE DROPDOWN - MALIIT
+   ======================================== */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 3px;                        /* <-- Mas maliit */
+  padding: 3px 8px;                /* <-- Mas maliit */
+  background: #f8f9fa;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1.5px solid transparent; /* <-- Mas manipis */
+  user-select: none;
+}
+
+.profile-trigger:hover {
+  background: #ecf0f1;
+  border-color: #667eea;
+}
+
+.profile-trigger.dark-trigger {
+  background: #2a2a5a;
+  border-color: #3d3d7e;
+}
+
+.profile-trigger.dark-trigger:hover {
+  background: #3d3d7e;
+  border-color: #8b7cf7;
+}
+
+.profile-avatar {
+  font-size: 12px;                 /* <-- Mas maliit */
+}
+
+.profile-name {
+  font-size: 10px;                 /* <-- Mas maliit */
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.profile-name.dark-text {
+  color: #e0e0ff;
+}
+
+.dropdown-arrow {
+  font-size: 6px;                  /* <-- Mas maliit */
+  transition: transform 0.3s ease;
+  color: #95a5a6;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* ===== DROPDOWN MENU ===== */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;                         /* <-- KALIWA ANG MENU */
+  min-width: 160px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: slideDown 0.2s ease;
+  z-index: 1000;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-menu.dark-dropdown {
+  background: #2a2a5a;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.dropdown-item:hover {
+  background: #f0f0f0;
+}
+
+.dropdown-menu.dark-dropdown .dropdown-item {
+  color: #e0e0ff;
+}
+
+.dropdown-menu.dark-dropdown .dropdown-item:hover {
+  background: #3d3d7e;
+}
+
+.dropdown-item .dropdown-icon {
+  font-size: 18px;
+}
+
+.dropdown-item.logout {
+  color: #e74c3c;
+}
+
+.dropdown-item.logout:hover {
+  background: #fde8e8;
+}
+
+.dropdown-menu.dark-dropdown .dropdown-item.logout {
+  color: #ff6b6b;
+}
+
+.dropdown-menu.dark-dropdown .dropdown-item.logout:hover {
+  background: #4a1a1a;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #ecf0f1;
+  margin: 4px 0;
+}
+
+.dropdown-menu.dark-dropdown .dropdown-divider {
+  background: #3d3d7e;
+}
+
+/* ========================================
+   WELCOME SECTION
+   ======================================== */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.welcome-section h2 {
+  color: #2c3e50;
+  font-size: 28px;
+  margin-bottom: 2px;
+  transition: color 0.3s ease;
+}
+
+.welcome-section h2.dark-text {
+  color: #e0e0ff;
+}
+
+.welcome-section p {
+  color: #7f8c8d;
+  font-size: 17px;
+  transition: color 0.3s ease;
+}
+
+.welcome-section p.dark-subtext {
+  color: #a0a0c0;
+}
+
+/* ========================================
+   OCCASION SECTION
+   ======================================== */
+.occasion-section {
+  background: #f8f9fa;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.occasion-section.dark-section {
+  background: #2a2a5a;
+}
+
+.occasion-section h3 {
+  color: #34495e;
+  margin-bottom: 4px;
+  font-size: 19px;
+  transition: color 0.3s ease;
+}
+
+.occasion-section h3.dark-text {
+  color: #e0e0ff;
+}
+
+.occasion-select {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #ecf0f1;
+  border-radius: 10px;
+  font-size: 19px;
+  outline: none;
+  background: white;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.occasion-select:focus {
+  border-color: #667eea;
+}
+
+.occasion-select.dark-select {
+  background: #1a1a3e;
+  border-color: #3d3d7e;
+  color: #e0e0ff;
+}
+
+.occasion-select.dark-select option {
+  background: #1a1a3e;
+  color: #e0e0ff;
+}
+
+.selected-occasion {
+  margin-top: 4px;
+  color: #2c3e50;
+  font-size: 17px;
+  transition: color 0.3s ease;
+}
+
+.selected-occasion.dark-text {
+  color: #e0e0ff;
+}
+
+.selected-occasion strong {
+  color: #667eea;
+}
+
+/* ========================================
+   FEATURES GRID
+   ======================================== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  flex: 1;
+  align-content: start;
+  margin-top: 4px;
+}
+
+.feature-card {
+  background: #f8f9fa;
+  padding: 20px 14px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 130px;
+  flex: 1;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card:active {
+  transform: scale(0.95);
+}
+
+.feature-card.dark-feature {
+  background: #2a2a5a;
+}
+
+.feature-card.dark-feature:hover {
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+}
+
+.feature-icon {
+  font-size: 50px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.feature-card h4 {
+  color: #2c3e50;
+  font-size: 19px;
+  margin-bottom: 2px;
+  transition: color 0.3s ease;
+}
+
+.feature-card h4.dark-text {
+  color: #e0e0ff;
+}
+
+.feature-card p {
+  color: #95a5a6;
+  font-size: 13px;
+  margin-bottom: 0;
+  transition: color 0.3s ease;
+}
+
+.feature-card p.dark-subtext {
+  color: #a0a0c0;
+}
+
+/* ========================================
+   SCAN WITH AI - PAHABA (FULL WIDTH)
+   ======================================== */
+.feature-card-wide {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 16px 20px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  margin-bottom: 10px;
+}
+
+.feature-card-wide:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+}
+
+.feature-card-wide.dark-feature-wide {
+  background: linear-gradient(135deg, #5a4bd1 0%, #6a3da8 100%);
+}
+
+.feature-card-wide .feature-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.feature-card-wide h4 {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.feature-card-wide p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media only screen and (max-height: 700px) {
+  .dashboard-card {
+    padding: 3px 6px 3px;
+  }
+  .logo-icon {
+    font-size: 20px;
+  }
+  .dashboard-title {
+    font-size: 18px;
+  }
+  .profile-name {
+    font-size: 9px;
+  }
+  .profile-trigger {
+    padding: 2px 6px;
+  }
+  .profile-avatar {
+    font-size: 10px;
+  }
+  .dropdown-arrow {
+    font-size: 5px;
+  }
+  .welcome-section h2 {
+    font-size: 21px;
+  }
+  .welcome-section p {
+    font-size: 14px;
+  }
+  .occasion-section {
+    padding: 10px 14px;
+  }
+  .occasion-section h3 {
+    font-size: 16px;
+  }
+  .occasion-select {
+    padding: 10px 14px;
+    font-size: 16px;
+  }
+  .feature-icon {
+    font-size: 38px;
+  }
+  .feature-card {
+    min-height: 100px;
+    padding: 14px 10px;
+  }
+  .feature-card h4 {
+    font-size: 16px;
+  }
+  .feature-card-wide {
+    min-height: 70px;
+    padding: 12px 16px;
+  }
+  .feature-card-wide .feature-icon {
+    font-size: 32px;
+  }
+  .feature-card-wide h4 {
+    font-size: 17px;
+  }
+  .feature-card-wide p {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  .feature-card p {
+    display: none;
+  }
+  .feature-card {
+    min-height: 65px;
+    padding: 8px 6px;
+  }
+  .feature-icon {
+    font-size: 28px;
+  }
+  .welcome-section p {
+    display: none;
+  }
+  .welcome-section h2 {
+    font-size: 17px;
+  }
+  .dashboard-title {
+    font-size: 16px;
+  }
+  .logo-icon {
+    font-size: 18px;
+  }
+  .profile-name {
+    font-size: 8px;
+  }
+  .profile-trigger {
+    padding: 2px 5px;
+  }
+  .profile-avatar {
+    font-size: 9px;
+  }
+  .dropdown-arrow {
+    font-size: 4px;
+  }
+  .dropdown-menu {
+    min-width: 130px;
+  }
+  .dropdown-item {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .dropdown-item .dropdown-icon {
+    font-size: 14px;
+  }
+  .feature-card-wide {
+    min-height: 55px;
+    padding: 8px 12px;
+  }
+  .feature-card-wide .feature-icon {
+    font-size: 24px;
+    margin-bottom: 3px;
+  }
+  .feature-card-wide h4 {
+    font-size: 14px;
+  }
+  .feature-card-wide p {
+    font-size: 11px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .features-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .feature-card {
+    min-height: 90px;
+    padding: 12px 8px;
+  }
+  .feature-icon {
+    font-size: 32px;
+  }
+  .feature-card h4 {
+    font-size: 14px;
+  }
+  .feature-card p {
+    font-size: 11px;
+  }
+  .feature-card-wide {
+    padding: 12px 14px;
+    min-height: 75px;
+  }
+  .feature-card-wide .feature-icon {
+    font-size: 32px;
+  }
+  .feature-card-wide h4 {
+    font-size: 16px;
+  }
+  .feature-card-wide p {
+    font-size: 12px;
+  }
+  .profile-name {
+    font-size: 9px;
+  }
+  .profile-trigger {
+    padding: 2px 6px;
+  }
+  .dropdown-menu {
+    min-width: 140px;
+  }
+}

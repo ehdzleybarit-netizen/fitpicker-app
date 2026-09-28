@@ -1,0 +1,357 @@
+.camera-scanner-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  padding: 4px;
+  animation: fadeIn 0.5s ease-in;
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+.camera-scanner-container.dark-mode {
+  background: #1a1a2e;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.camera-scanner-card {
+  background: transparent;
+  border-radius: 12px;
+  padding: 12px 14px 16px;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  box-shadow: none;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.camera-scanner-card.dark-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+.camera-scanner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ecf0f1;
+  transition: border-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.camera-scanner-card.dark-card .camera-scanner-header {
+  border-bottom-color: #2d2d5e;
+}
+
+.camera-scanner-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.camera-scanner-title.dark-text {
+  color: #e0e0ff;
+}
+
+.back-btn {
+  background: #ecf0f1;
+  color: #2c3e50;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.back-btn:hover {
+  background: #bdc3c7;
+}
+
+.back-btn.dark-btn {
+  background: #2d2d5e;
+  color: #e0e0ff;
+}
+
+.back-btn.dark-btn:hover {
+  background: #3d3d7e;
+}
+
+.btn-dark-mode {
+  background: #ecf0f1;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-dark-mode:hover {
+  transform: scale(1.1);
+}
+
+.btn-dark-mode.dark-btn-mode {
+  background: #2d2d5e;
+}
+
+/* ===== CAMERA PREVIEW - MAS MALAKI AT PAABOT SA BABA ===== */
+.camera-preview {
+  flex: 1;
+  background: none;
+  border-radius: none;
+  height: calc(100vh - 500px);   /* <-- ITO ANG MAGPAPAABOT SA BABA */
+  min-height: 500px;             /* <-- MINIMUM HEIGHT */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.camera-preview.dark-preview {
+  background: #2a2a5a;
+  border-color: #3d3d7e;
+}
+
+.camera-placeholder {
+  text-align: center;
+  padding: 30px;
+  color: #95a5a6;
+}
+
+.camera-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.camera-placeholder h3 {
+  font-size: 18px;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.camera-placeholder p {
+  font-size: 14px;
+  color: #95a5a6;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.captured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.camera-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.btn-upload,
+.btn-capture,
+.btn-close-camera,
+.btn-retry {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.btn-upload {
+  background: #667eea;
+  color: white;
+}
+
+.btn-upload:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-capture {
+  background: #2ecc71;
+  color: white;
+}
+
+.btn-capture:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+}
+
+.btn-close-camera {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-close-camera:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+}
+
+.btn-retry {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-retry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
+}
+
+.btn-upload:disabled,
+.btn-capture:disabled,
+.btn-retry:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.loading-spinner {
+  font-size: 48px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-overlay p {
+  color: white;
+  font-size: 16px;
+  margin-top: 12px;
+}
+
+.camera-info {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.camera-info p {
+  font-size: 13px;
+  color: #95a5a6;
+  margin: 2px 0;
+}
+
+.camera-info-small {
+  font-size: 11px;
+  color: #bdc3c7;
+}
+
+@media only screen and (max-height: 700px) {
+  .camera-scanner-card {
+    padding: 8px 12px 10px;
+  }
+  .camera-scanner-title {
+    font-size: 16px;
+  }
+  .camera-preview {
+    min-height: 300px;
+    height: calc(100vh - 200px);
+  }
+  .camera-icon {
+    font-size: 40px;
+  }
+  .camera-placeholder h3 {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  .camera-preview {
+    min-height: 700px;
+    height: 100vh;
+  }
+  .camera-icon {
+    font-size: 32px;
+  }
+  .camera-placeholder h3 {
+    font-size: 14px;
+  }
+  .camera-placeholder p {
+    font-size: 12px;
+  }
+  .camera-info p {
+    font-size: 11px;
+  }
+  .camera-info-small {
+    display: none;
+  }
+  .camera-controls {
+    gap: 6px;
+  }
+  .btn-upload,
+  .btn-capture,
+  .btn-close-camera,
+  .btn-retry {
+    padding: 8px 10px;
+    font-size: 12px;
+    min-width: 60px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .camera-controls {
+    flex-direction: column;
+  }
+}
