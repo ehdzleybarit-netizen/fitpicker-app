@@ -100,7 +100,7 @@ const AddClothing = () => {
     console.log('Saving to database:', clothingData);
 
     try {
-      const response = await fetch('http://192.168.1.240/fitpicker-api/save_clothing.php', {
+      const response = await fetch('http://192.168.1.62/fitpicker-api/save_clothing.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

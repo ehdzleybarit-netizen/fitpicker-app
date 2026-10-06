@@ -11,7 +11,7 @@ const Recommendation = () => {
   const [stats, setStats] = useState({ total: 0, filtered: 0, outfits: 0 });
 
   // ===== IP ADDRESS NG PC MO =====
-  const IP = '192.168.1.240';
+  const IP = '192.168.1.62';
   const API_URL = `http://${IP}/fitpicker-api`;
 
   useEffect(() => {

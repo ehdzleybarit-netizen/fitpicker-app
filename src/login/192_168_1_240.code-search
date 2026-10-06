@@ -1,0 +1,7 @@
+# Query: 192.168.1.240
+# Flags: CaseSensitive WordMatch RegExp
+
+1 result - 1 file
+
+src\login\login.jsx:
+  30:         url: 'http://192.168.1.62/fitpicker-api/login.php',

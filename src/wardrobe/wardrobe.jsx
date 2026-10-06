@@ -10,7 +10,7 @@ const Wardrobe = () => {
   const [loading, setLoading] = useState(true);
 
   // ===== IP ADDRESS NG PC MO =====
-  const IP = '192.168.1.240'; 
+  const IP = '192.168.1.62'; 
   const API_URL = `http://${IP}/fitpicker-api`; 
 
   useEffect(() => {

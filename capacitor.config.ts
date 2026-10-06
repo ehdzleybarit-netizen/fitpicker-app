@@ -1,13 +1,12 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.myapp',
-  appName: 'myapp',
+  appId: 'com.fitpicker.app',
+  appName: 'FitPicker',
   webDir: 'build',
-  plugins: {
-    CapacitorHttp: {
-      enabled: true
-    }
+  server: {
+    cleartext: true,        // <-- ITO ANG IMPORTANTE
+    androidScheme: 'https'
   }
 };
 

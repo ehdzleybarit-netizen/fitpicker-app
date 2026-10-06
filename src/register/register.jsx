@@ -50,7 +50,7 @@ const Register = () => {
     setMessage('');
 
     try {
-      const response = await fetch('http://192.168.1.240/fitpicker-api/register.php', {
+      const response = await fetch('http:///fitpicker-api/register.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
