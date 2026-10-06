@@ -125,7 +125,7 @@ const CameraScanner = () => {
         formData.append('image', blob, 'person.jpg');
       }
 
-      const response = await fetch('http://fitpicker.rf.gd/fitpicker-api/analyze_person.php', {
+      const response = await fetch('http://192.168.1.62/fitpicker-api/analyze_person.php', {
         method: 'POST',
         body: formData,
       });

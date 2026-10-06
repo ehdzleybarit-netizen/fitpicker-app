@@ -27,7 +27,7 @@ const Login = () => {
 
     try {
       const response = await CapacitorHttp.post({
-        url: 'http://fitpicker.rf.gd/fitpicker-api/login.php',
+        url: 'http://192.168.1.62/fitpicker-api/login.php',
         headers: {
           'Content-Type': 'application/json',
         },

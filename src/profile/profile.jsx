@@ -53,7 +53,7 @@ const Profile = () => {
 
   const fetchProfile = async (user) => {
     try {
-      const response = await fetch(`http://fitpicker.rf.gd/fitpicker-api/get_profile.php?username=${user}`);
+      const response = await fetch(`http://192.168.1.62/fitpicker-api/get_profile.php?username=${user}`);
       const result = await response.json();
       
       if (result.success) {
@@ -122,7 +122,7 @@ const Profile = () => {
     };
 
     try {
-      const response = await fetch('http://fitpicker.rf.gd/fitpicker-api/update_profile.php', {
+      const response = await fetch('http://192.168.1.62/fitpicker-api/update_profile.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
