@@ -64,7 +64,7 @@ try {
     }
     
     // ===== I-VERIFY ANG PASSWORD =====
-    if (password_verify($password, $user['password']) || strpos($password, 'pass') !== false) {
+    if (password_verify($password, $user['password'])) {
         echo json_encode([
             'success' => true,
             'message' => 'Login successful!',

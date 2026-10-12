@@ -166,38 +166,13 @@ foreach ($modelsToTry as $modelName) {
     }
 }
 
-// Fallback analysis if Gemini endpoint hits 503/429
+// If Gemini analysis failed, return actual error response
 if (!$geminiParsed) {
-    $geminiParsed = [
-        'success' => true,
-        'humanDetected' => true,
-        'bodyShape' => 'Proportional',
-        'skinTone' => 'Medium Warm',
-        'ageRange' => '20-30',
-        'gender' => 'Unisex',
-        'currentStyle' => 'Modern Casual',
-        'occasion' => $occasion,
-        'suggestedOutfits' => [
-            [
-                'name' => $occasion . ' Signature Fit',
-                'occasion' => $occasion,
-                'top' => 'Fitted dark crewneck or tailored button-up',
-                'bottom' => 'Slim-fit chinos in khaki or charcoal',
-                'footwear' => 'Clean white leather sneakers or dress loafers',
-                'accessories' => 'Classic silver watch and leather belt',
-                'description' => 'A sharp, modern aesthetic specifically designed for ' . $occasion . ' occasions.'
-            ],
-            [
-                'name' => 'Refined ' . $occasion . ' Look',
-                'occasion' => $occasion,
-                'top' => 'Structured lightweight blazer or knit polo',
-                'bottom' => 'Dark wash selvedge denim or tailored trousers',
-                'footwear' => 'Chelsea boots or clean dress shoes',
-                'accessories' => 'Slim leather wallet and sunglasses',
-                'description' => 'Sophisticated and versatile styling tailored to this occasion.'
-            ]
-        ]
-    ];
+    echo json_encode([
+        'success' => false,
+        'message' => 'Gemini AI Vision analysis failed or was rate-limited. Please check your connection and try again.'
+    ]);
+    exit;
 }
 
 // If no human detected, exit immediately without generating tryon
