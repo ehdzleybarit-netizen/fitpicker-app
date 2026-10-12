@@ -23,7 +23,7 @@ if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
         'type' => $types[array_rand($types)],
         'color' => $colors[array_rand($colors)],
         'style' => $styles[array_rand($styles)],
-        'image_url' => 'http://192.168.1.240/fitpicker-api/' . $filepath,
+        'image_url' => 'http://192.168.1.61/fitpicker-api/' . $filepath,
         'message' => 'Clothing analyzed successfully'
     ];
     

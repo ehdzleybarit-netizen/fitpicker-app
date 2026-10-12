@@ -54,6 +54,7 @@ const Profile = () => {
 
   const fetchProfile = async (user) => {
     try {
+
       const response = await fetch(`${API_BASE_URL}/get_profile.php?username=${user}`);
       const result = await response.json();
       

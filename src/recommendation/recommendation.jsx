@@ -11,7 +11,7 @@ const Recommendation = () => {
   const [stats, setStats] = useState({ total: 0, filtered: 0, outfits: 0 });
 
   // ===== IP ADDRESS NG PC MO =====
-  const IP = '192.168.1.62';
+  const IP = '192.168.1.61';
   const API_URL = `http://${IP}/fitpicker-api`;
 
   useEffect(() => {
@@ -60,7 +60,6 @@ const Recommendation = () => {
 
     console.log('📊 Filtered items:', items.length);
 
-    // Paghiwalayin ang Tops at Bottoms
     const tops = items.filter(i => {
       const type = (i.type || '').toLowerCase();
       return ['top', 'shirt', 't-shirt', 'blouse', 'jacket', 'hoodie', 'sweater', 'tshirt'].includes(type);
@@ -76,7 +75,7 @@ const Recommendation = () => {
 
     let outfitList = [];
 
-    // Gumawa ng outfits (Top + Bottom)
+  
     tops.forEach(top => {
       bottoms.forEach(bottom => {
         outfitList.push({
@@ -88,7 +87,7 @@ const Recommendation = () => {
       });
     });
 
-    // I-sort by score
+    
     outfitList.sort((a, b) => b.score - a.score);
 
     setStats({
@@ -125,17 +124,17 @@ const Recommendation = () => {
       }
     }
     
-    // 2. Same style = good match
+   
     if ((top.style || '').toLowerCase() === (bottom.style || '').toLowerCase()) {
       score += 8;
     }
     
-    // 3. Color variety bonus
+   
     if (topColor !== bottomColor) {
       score += 5;
     }
     
-    // 4. May kulay bonus
+   
     if (topColor && topColor !== 'no color') score += 2;
     if (bottomColor && bottomColor !== 'no color') score += 2;
     
@@ -261,20 +260,20 @@ const Recommendation = () => {
           <div className="outfits-grid">
             {outfits.map((outfit, index) => (
               <div key={index} className={`outfit-card ${darkMode ? 'dark-item' : ''}`}>
-                {/* Best Match Badge */}
+                {}
                 {index === 0 && <div className="best-match-badge">🏆 Best Match</div>}
                 
-                {/* Outfit Number */}
+                {}
                 <div className="outfit-number">#{index + 1}</div>
                 
-                {/* Score */}
+                {}
                 <div className="outfit-score" style={{ color: getScoreColor(outfit.score) }}>
                   Score: {outfit.score}/27 ({Math.round((outfit.score / 27) * 100)}%) - {getScoreLabel(outfit.score)}
                 </div>
                 
                 {/* ===== OUTFIT COMBINATION ===== */}
                 <div className="outfit-combination">
-                  {/* TOP */}
+                  {}
                   <div className="outfit-item">
                     <div className="item-image-container">
                       {outfit.top && outfit.top.image ? (
@@ -294,10 +293,10 @@ const Recommendation = () => {
                     </div>
                   </div>
 
-                  {/* PLUS SIGN */}
+                  {}
                   <div className="outfit-arrow">➕</div>
 
-                  {/* BOTTOM */}
+                  {}
                   <div className="outfit-item">
                     <div className="item-image-container">
                       {outfit.bottom && outfit.bottom.image ? (
@@ -318,7 +317,7 @@ const Recommendation = () => {
                   </div>
                 </div>
 
-                {/* Outfit Type */}
+                {}
                 <div className="outfit-type">{outfit.type}</div>
               </div>
             ))}

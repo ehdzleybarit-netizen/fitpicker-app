@@ -156,6 +156,7 @@ const CameraScanner = () => {
       }
       formData.append('occasion', targetOccasion);
 
+
       const response = await fetch(`${API_BASE_URL}/analyze_person.php`, {
         method: 'POST',
         body: formData,
