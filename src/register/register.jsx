@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config/api';
 import './register.css';
 
 const Register = () => {
@@ -50,7 +51,7 @@ const Register = () => {
     setMessage('');
 
     try {
-      const response = await fetch('http:///fitpicker-api/register.php', {
+      const response = await fetch(`${API_BASE_URL}/register.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ import './dashboard.css';
 const Dashboard = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
-  const [occasion, setOccasion] = useState('Casual');
+  const [occasion, setOccasion] = useState(() => localStorage.getItem('selectedOccasion') || 'Casual');
   const [darkMode, setDarkMode] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -70,7 +70,7 @@ const Dashboard = () => {
   };
 
   const handleRecommendations = () => {
-    navigate('/recommendation');
+    navigate('/recommendation', { state: { occasion } });
   };
 
   const handleProfile = () => {
@@ -132,7 +132,10 @@ const Dashboard = () => {
           <select 
             className={`occasion-select ${darkMode ? 'dark-select' : ''}`}
             value={occasion} 
-            onChange={(e) => setOccasion(e.target.value)}
+            onChange={(e) => {
+              setOccasion(e.target.value);
+              localStorage.setItem('selectedOccasion', e.target.value);
+            }}
           >
             <option>Casual</option>
             <option>Formal</option>
@@ -147,10 +150,10 @@ const Dashboard = () => {
         </div>
         
         {/* ===== SCAN WITH AI - PAHABA (FULL WIDTH) ===== */}
-        <div className={`feature-card-wide ${darkMode ? 'dark-feature-wide' : ''}`} onClick={() => navigate('/camera-scanner')}>
+        <div className={`feature-card-wide ${darkMode ? 'dark-feature-wide' : ''}`} onClick={() => navigate('/camera-scanner', { state: { occasion } })}>
           <span className="feature-icon">🔍</span>
           <h4>Scan with AI</h4>
-          <p>Scan clothing for recommendations</p>
+          <p>Scan person for {occasion} recommendations</p>
         </div>
         
         {/* ===== FEATURES GRID ===== */}

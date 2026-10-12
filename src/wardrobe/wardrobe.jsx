@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config/api';
 import './wardrobe.css';
 
 const Wardrobe = () => {
@@ -9,9 +10,7 @@ const Wardrobe = () => {
   const [filter, setFilter] = useState('All');
   const [loading, setLoading] = useState(true);
 
-  // ===== IP ADDRESS NG PC MO =====
-  const IP = '192.168.1.62'; 
-  const API_URL = `http://${IP}/fitpicker-api`; 
+  const API_URL = API_BASE_URL; 
 
   useEffect(() => {
     loadItems();

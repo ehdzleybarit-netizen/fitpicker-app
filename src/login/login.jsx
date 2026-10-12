@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CapacitorHttp } from '@capacitor/core';
+import { API_BASE_URL } from '../config/api';
 import './login.css';
 
 const Login = () => {
@@ -27,7 +28,7 @@ const Login = () => {
 
     try {
       const response = await CapacitorHttp.post({
-        url: 'http://192.168.1.62/fitpicker-api/login.php',
+        url: `${API_BASE_URL}/login.php`,
         headers: {
           'Content-Type': 'application/json',
         },
