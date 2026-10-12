@@ -3,9 +3,9 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 $host = 'localhost';
-$dbname = 'fitpicker_db';
-$username = 'root';
+$user = 'root';
 $password = '';
+$database = 'fitpicker_db';
 
 $conn = new mysqli($host, $user, $password, $database);
 

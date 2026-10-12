@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config/api';
 import './addclothing.css';
 
 const AddClothing = () => {
@@ -100,7 +101,7 @@ const AddClothing = () => {
     console.log('Saving to database:', clothingData);
 
     try {
-      const response = await fetch('http://192.168.1.62/fitpicker-api/save_clothing.php', {
+      const response = await fetch(`${API_BASE_URL}/save_clothing.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
