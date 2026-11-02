@@ -10,8 +10,8 @@ const Recommendation = () => {
   const [occasion, setOccasion] = useState('Sporty');
   const [stats, setStats] = useState({ total: 0, filtered: 0, outfits: 0 });
 
-  // ===== IP ADDRESS NG PC MO =====
-  const IP = '192.168.1.62';
+  
+  const IP = '192.168.80.129';
   const API_URL = `http://${IP}/fitpicker-api`;
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const Recommendation = () => {
 
   // ===== GENERATE RECOMMENDATIONS =====
   const generateRecommendationsWithOccasion = (wardrobe, selectedOccasion) => {
-    console.log('🔍 Generating for occasion:', selectedOccasion);
+    console.log('⌕ Generating for occasion:', selectedOccasion);
     console.log('📦 Wardrobe items:', wardrobe);
 
     // Filter by style (hindi occasion)
@@ -144,9 +144,9 @@ const Recommendation = () => {
 
   // ===== SCORE LABELS =====
   const getScoreLabel = (score) => {
-    if (score >= 25) return 'Perfect Match! ⭐';
-    if (score >= 20) return 'Excellent Match! 🔥';
-    if (score >= 15) return 'Great Match! 👍';
+    if (score >= 25) return 'Perfect Match! ';
+    if (score >= 20) return 'Excellent Match! ';
+    if (score >= 15) return 'Great Match! ';
     if (score >= 10) return 'Good Match';
     if (score >= 5) return 'Decent Match';
     return 'Try Different';
@@ -191,10 +191,8 @@ const Recommendation = () => {
           <button className={`back-btn ${darkMode ? 'dark-btn' : ''}`} onClick={() => navigate('/dashboard')}>
             ← Back
           </button>
-          <h1 className={`recommendation-title ${darkMode ? 'dark-text' : ''}`}>🤖 AI Recommendations</h1>
-          <button className={`btn-dark-mode ${darkMode ? 'dark-btn-mode' : ''}`} onClick={toggleDarkMode}>
-            {darkMode ? '☀️' : '🌙'}
-          </button>
+          <h1 className={`recommendation-title ${darkMode ? 'dark-text' : ''}`}>⌬ AI Recommendations</h1>
+          
         </div>
 
         {/* ===== OCCASION SELECTOR ===== */}
@@ -216,7 +214,7 @@ const Recommendation = () => {
               <option value="Trendy">Trendy</option>
             </select>
             <button className="btn-refresh" onClick={handleRefresh}>
-              🔄 Refresh
+              ⟳ Refresh
             </button>
           </div>
         </div>
@@ -247,7 +245,7 @@ const Recommendation = () => {
           </div>
         ) : outfits.length === 0 ? (
           <div className={`empty-state ${darkMode ? 'dark-empty' : ''}`}>
-            <span className="empty-icon">📋</span>
+            <span className="empty-icon">☷</span>
             <h3 className={darkMode ? 'dark-text' : ''}>No outfits found</h3>
             <p className={darkMode ? 'dark-subtext' : ''}>
               Items with style "{occasion}": {stats.filtered} found.<br />

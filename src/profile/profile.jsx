@@ -161,12 +161,10 @@ const Profile = () => {
             ← Back
           </button>
           <div className="header-center">
-            <h1 className={`profile-title ${darkMode ? 'dark-text' : ''}`}>👤 My Profile</h1>
+            <h1 className={`profile-title ${darkMode ? 'dark-text' : ''}`}>☻ My Profile</h1>
           </div>
           <div className="header-actions">
-            <button className={`btn-dark-mode ${darkMode ? 'dark-btn-mode' : ''}`} onClick={toggleDarkMode}>
-              {darkMode ? '☀️' : '🌙'}
-            </button>
+            
           </div>
         </div>
 
@@ -305,7 +303,7 @@ const Profile = () => {
 
           {/* AI Recommendations */}
           <div className={`profile-section ai-section ${darkMode ? 'dark-section' : ''}`}>
-            <h3 className={darkMode ? 'dark-text' : ''}>🤖 AI Recommendations</h3>
+            <h3 className={darkMode ? 'dark-text' : ''}>⌬ AI Recommendations</h3>
             <p className={darkMode ? 'dark-subtext' : ''}>Based on your profile:</p>
             <ul className={darkMode ? 'dark-list' : ''}>
               <li className={darkMode ? 'dark-list-item' : ''}>

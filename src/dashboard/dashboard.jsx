@@ -83,11 +83,6 @@ const Dashboard = () => {
         
         {/* ===== HEADER ===== */}
         <div className="dashboard-header">
-          <div className="header-left">
-            <span className="logo-icon">👔</span>
-            <h1 className={`dashboard-title ${darkMode ? 'dark-text' : ''}`}>FitPicker</h1>
-          </div>
-          
           <div className="header-right">
             {/* ===== PROFILE DROPDOWN ===== */}
             <div className="profile-dropdown" ref={dropdownRef}>
@@ -95,7 +90,7 @@ const Dashboard = () => {
                 className={`profile-trigger ${darkMode ? 'dark-trigger' : ''}`}
                 onClick={() => setShowDropdown(!showDropdown)}
               >
-                <span className="profile-avatar">🧑</span>
+                <span className="profile-avatar">☻</span>
                 <span className={`profile-name ${darkMode ? 'dark-text' : ''}`}>
                   {username || 'emman'}
                 </span>
@@ -128,7 +123,7 @@ const Dashboard = () => {
 
         {/* ===== OCCASION ===== */}
         <div className={`occasion-section ${darkMode ? 'dark-section' : ''}`}>
-          <h3 className={darkMode ? 'dark-text' : ''}>📅 Select Occasion</h3>
+          <h3 className={darkMode ? 'dark-text' : ''}>▦︎ Select Occasion</h3>
           <select 
             className={`occasion-select ${darkMode ? 'dark-select' : ''}`}
             value={occasion} 
@@ -151,7 +146,7 @@ const Dashboard = () => {
         
         {/* ===== SCAN WITH AI - PAHABA (FULL WIDTH) ===== */}
         <div className={`feature-card-wide ${darkMode ? 'dark-feature-wide' : ''}`} onClick={() => navigate('/camera-scanner', { state: { occasion } })}>
-          <span className="feature-icon">🔍</span>
+          <span className="feature-icon">⌕</span>
           <h4>Scan with AI</h4>
           <p>Scan person for {occasion} recommendations</p>
         </div>
@@ -159,25 +154,25 @@ const Dashboard = () => {
         {/* ===== FEATURES GRID ===== */}
         <div className="features-grid">
           <div className={`feature-card ${darkMode ? 'dark-feature' : ''}`} onClick={handleAddClothing}>
-            <span className="feature-icon">📸</span>
+            <span className="feature-icon">📷︎</span>
             <h4 className={darkMode ? 'dark-text' : ''}>Add Clothing</h4>
             <p className={darkMode ? 'dark-subtext' : ''}>Upload your wardrobe items</p>
           </div>
 
           <div className={`feature-card ${darkMode ? 'dark-feature' : ''}`} onClick={handleWardrobe}>
-            <span className="feature-icon">👔</span>
+            <span className="feature-icon">▤</span>
             <h4 className={darkMode ? 'dark-text' : ''}>My Wardrobe</h4>
             <p className={darkMode ? 'dark-subtext' : ''}>View your clothing collection</p>
           </div>
 
           <div className={`feature-card ${darkMode ? 'dark-feature' : ''}`} onClick={handleRecommendations}>
-            <span className="feature-icon">🤖</span>
+            <span className="feature-icon">⌬</span>
             <h4 className={darkMode ? 'dark-text' : ''}>Recommendations</h4>
             <p className={darkMode ? 'dark-subtext' : ''}>AI-powered outfit suggestions</p>
           </div>
 
           <div className={`feature-card ${darkMode ? 'dark-feature' : ''}`} onClick={handleProfile}>
-            <span className="feature-icon">👤</span>
+            <span className="feature-icon">☻</span>
             <h4 className={darkMode ? 'dark-text' : ''}>Profile</h4>
             <p className={darkMode ? 'dark-subtext' : ''}>Manage your account</p>
           </div>

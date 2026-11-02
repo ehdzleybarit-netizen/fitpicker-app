@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../config/api';
 import './addclothing.css';
 
 const AddClothing = () => {
@@ -101,7 +100,7 @@ const AddClothing = () => {
     console.log('Saving to database:', clothingData);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/save_clothing.php`, {
+      const response = await fetch('http://192.168.80.129/fitpicker-api/save_clothing.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,13 +139,13 @@ const AddClothing = () => {
           <button className={`back-btn ${darkMode ? 'dark-btn' : ''}`} onClick={() => navigate('/dashboard')}>
             ← Back
           </button>
-          <h1 className={`add-clothing-title ${darkMode ? 'dark-text' : ''}`}>📸 Add Clothing</h1>
+          <h1 className={`add-clothing-title ${darkMode ? 'dark-text' : ''}`}>📷︎ Add Clothing</h1>
         </div>
 
         <div className={`camera-section ${darkMode ? 'dark-camera' : ''}`}>
           {!cameraActive && !image && (
             <div className={`camera-placeholder ${darkMode ? 'dark-placeholder' : ''}`}>
-              <span>📷</span>
+              <span>📷︎</span>
               <p>Take a photo or upload from gallery</p>
             </div>
           )}
@@ -173,13 +172,13 @@ const AddClothing = () => {
         <div className="camera-controls">
           {!cameraActive && !image && (
             <button className={`btn-camera ${darkMode ? 'dark-btn-primary' : ''}`} onClick={startCamera}>
-              📷 Open Camera
+              📷︎ Open Camera
             </button>
           )}
 
           {cameraActive && (
             <button className={`btn-capture ${darkMode ? 'dark-btn-success' : ''}`} onClick={capturePhoto}>
-              📸 Capture
+              📷︎ Capture
             </button>
           )}
 
@@ -190,7 +189,7 @@ const AddClothing = () => {
           )}
 
           <label className={`btn-upload ${darkMode ? 'dark-btn-info' : ''}`}>
-            📁 Upload from Gallery
+            ▰ Upload from Gallery
             <input 
               ref={fileInputRef}
               type="file" 
@@ -267,7 +266,7 @@ const AddClothing = () => {
         </div>
 
         <button className={`btn-save ${darkMode ? 'dark-btn-primary' : ''}`} onClick={handleSave} disabled={loading}>
-          {loading ? 'SAVING...' : '💾 Save Clothing'}
+          {loading ? 'SAVING...' : '▣ Save Clothing'}
         </button>
       </div>
     </div>
