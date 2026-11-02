@@ -12,11 +12,11 @@ const OCCASIONS = [
 ];
 
 const LOADING_STEPS = [
-  { icon: '🔍', title: 'Verifying Person in Photo', desc: 'Gemini AI is checking human presence and posture...' },
-  { icon: '🧬', title: 'Analyzing Body & Style', desc: 'Detecting body shape, skin tone and existing aesthetic...' },
-  { icon: '✨', title: 'AI Virtual Try-On', desc: 'Tailoring occasion garments to your body with AI Diffusion...' },
-  { icon: '🎨', title: 'Preserving Identity', desc: 'Inpainting new clothes while keeping your face, hair and pose...' },
-  { icon: '🪄', title: 'Finalizing Outfit Recommendations', desc: 'Styling matching shoes, bottoms, and accessories...' },
+  { icon: '◉', title: 'Verifying Person in Photo', desc: 'Gemini AI is checking human presence and posture...' },
+  { icon: '⌘', title: 'Analyzing Body & Style', desc: 'Detecting body shape, skin tone and existing aesthetic...' },
+  { icon: '✦', title: 'AI Virtual Try-On', desc: 'Tailoring occasion garments to your body with AI Diffusion...' },
+  { icon: '❖', title: 'Preserving Identity', desc: 'Inpainting new clothes while keeping your face, hair and pose...' },
+  { icon: '⚝', title: 'Finalizing Outfit Recommendations', desc: 'Styling matching shoes, bottoms, and accessories...' },
 ];
 
 const CameraScanner = () => {
@@ -162,6 +162,7 @@ const CameraScanner = () => {
         body: formData,
       });
 
+      
       const result = await response.json();
       console.log('AI Tryon analysis result:', result);
 
@@ -239,12 +240,9 @@ const CameraScanner = () => {
             ← Back
           </button>
           <div className="header-title-box">
-            <h1 className={`camera-scanner-title ${darkMode ? 'dark-text' : ''}`}>✨ Scan with AI</h1>
+            <h1 className={`camera-scanner-title ${darkMode ? 'dark-text' : ''}`}> Scan with AI</h1>
             <span className="header-subtitle">Virtual Try-On • Identity Preserved</span>
           </div>
-          <button className={`btn-dark-mode ${darkMode ? 'dark-btn-mode' : ''}`} onClick={toggleDarkMode}>
-            {darkMode ? '☀️' : '🌙'}
-          </button>
         </div>
 
         {/* Occasion Selector Ribbon */}
@@ -273,7 +271,7 @@ const CameraScanner = () => {
             <div className={`ai-tryon-hero-card ${darkMode ? 'dark-hero' : ''}`}>
               <div className="tryon-card-header">
                 <div className="tryon-badge">
-                  <span>✨ AI Virtual Try-On</span>
+                  <span> AI Virtual Try-On</span>
                   <span className="tryon-occasion-tag">{occasion} Garb</span>
                 </div>
                 <div className="view-toggle-group">
@@ -281,13 +279,13 @@ const CameraScanner = () => {
                     className={`btn-view-toggle ${viewMode === 'tryon' ? 'active' : ''}`}
                     onClick={() => setViewMode('tryon')}
                   >
-                    ✨ New Look
+                    ✦ New Look
                   </button>
                   <button
                     className={`btn-view-toggle ${viewMode === 'original' ? 'active' : ''}`}
                     onClick={() => setViewMode('original')}
                   >
-                    📸 Original
+                    📷︎ Original
                   </button>
                   <button
                     className={`btn-view-toggle ${viewMode === 'split' ? 'active' : ''}`}
@@ -320,7 +318,7 @@ const CameraScanner = () => {
                   <div className="single-image-wrapper">
                     <img src={originalImgUrl} alt="Original Upload" className="tryon-main-image" />
                     <div className="image-caption-badge original-badge">
-                      <span>📸 Original Photo</span>
+                      <span>📷︎ Original Photo</span>
                     </div>
                   </div>
                 )}
@@ -394,7 +392,7 @@ const CameraScanner = () => {
 
             {/* Try Another Occasion Quick Switcher */}
             <div className={`re-tryon-panel ${darkMode ? 'dark-re-panel' : ''}`}>
-              <p className="re-tryon-title">🔄 Try Another Occasion for This Photo:</p>
+              <p className="re-tryon-title"> Try Another Occasion for This Photo:</p>
               <div className="re-tryon-buttons">
                 {OCCASIONS.filter((o) => o.id !== occasion).map((occ) => (
                   <button
@@ -412,7 +410,7 @@ const CameraScanner = () => {
             {/* Action Controls */}
             <div className="ai-results-controls">
               <button className="btn-scan-again" onClick={removeImage}>
-                📸 Scan Another Person
+                📷︎ Scan Another Person
               </button>
             </div>
           </div>
@@ -422,13 +420,12 @@ const CameraScanner = () => {
             <div className={`camera-section ${darkMode ? 'dark-camera' : ''}`}>
               {!cameraActive && !capturedImage && (
                 <div className={`camera-placeholder ${darkMode ? 'dark-placeholder' : ''}`}>
-                  <span className="placeholder-icon">🧑</span>
+                  <span className="placeholder-icon"></span>
                   <h3>Point camera at a person</h3>
                   <p>Upload or snap a photo of yourself or a friend</p>
                   <div className="placeholder-tags">
-                    <span className="hint-pill">✨ Identity Preserved</span>
-                    <span className="hint-pill">👔 Tailored to {occasion}</span>
-                    <span className="hint-pill">⚡ Real AI Diffusion</span>
+                    
+                   
                   </div>
                 </div>
               )}
@@ -456,13 +453,13 @@ const CameraScanner = () => {
               {!cameraActive && !capturedImage && (
                 <>
                   <button className={`btn-camera ${darkMode ? 'dark-btn-primary' : ''}`} onClick={startCamera}>
-                    📷 Open Camera
+                    📷︎ Open Camera
                   </button>
                   <label 
                     className={`btn-upload ${darkMode ? 'dark-btn-info' : ''}`}
                     style={{ position: 'relative', overflow: 'hidden', cursor: 'pointer' }}
                   >
-                    <span>📤 Upload Photo</span>
+                    <span>⇧ Upload Photo</span>
                     <input 
                       id="scanner-photo-upload"
                       ref={fileInputRef}
@@ -487,7 +484,7 @@ const CameraScanner = () => {
               {cameraActive && (
                 <>
                   <button className={`btn-capture ${darkMode ? 'dark-btn-success' : ''}`} onClick={capturePhoto}>
-                    📸 Capture Person
+                    📷︎ Capture Person
                   </button>
                   <button className={`btn-close-camera ${darkMode ? 'dark-btn-danger' : ''}`} onClick={stopCamera}>
                     ✕ Close Camera
@@ -504,7 +501,7 @@ const CameraScanner = () => {
                     className={`btn-upload ${darkMode ? 'dark-btn-info' : ''}`}
                     style={{ position: 'relative', overflow: 'hidden', cursor: 'pointer' }}
                   >
-                    <span>📤 Upload New</span>
+                    <span>⇧ Upload New</span>
                     <input 
                       type="file" 
                       accept="image/*" 

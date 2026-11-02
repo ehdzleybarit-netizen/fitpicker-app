@@ -1,33 +1,46 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE');
+header('Access-Control-Allow-Headers: Content-Type');
 
-$host = 'localhost';
-$dbname = 'fitpicker_db';
-$username = 'root';
-$password = '';
-
-$conn = new mysqli($host, $user, $password, $database);
-
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'DB connection failed']);
-    exit;
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+require_once 'config.php';
+
+// ===== KUNAIN ANG ID MULA SA POST BODY =====
+$rawInput = file_get_contents('php://input');
+$data = json_decode($rawInput, true);
+
+$id = isset($data['id']) ? intval($data['id']) : 0;
+$username = isset($data['username']) ? trim($data['username']) : '';
+
+// ===== DEBUG LOG =====
+error_log('Delete ID: ' . $id);
+error_log('Delete Username: ' . $username);
+
 if ($id <= 0) {
-    echo json_encode(['success' => false, 'message' => 'Invalid ID']);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid ID',
+        'debug_id' => $id,
+        'debug_raw' => $rawInput
+    ]);
     exit;
 }
 
-$sql = "DELETE FROM clothing_items WHERE id = $id";
-$result = $conn->query($sql);
-
-if ($result && $conn->affected_rows > 0) {
-    echo json_encode(['success' => true, 'message' => 'Deleted successfully']);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Delete failed']);
+try {
+    $stmt = $pdo->prepare("DELETE FROM clothing_items WHERE id = ?");
+    $stmt->execute([$id]);
+    
+    if ($stmt->rowCount() > 0) {
+        echo json_encode(['success' => true, 'message' => 'Deleted successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Item not found']);
+    }
+} catch(PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Delete failed: ' . $e->getMessage()]);
 }
-
-$conn->close();
 ?>

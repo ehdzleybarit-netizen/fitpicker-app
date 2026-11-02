@@ -57,15 +57,13 @@
 
 /* ===== HEADER ===== */
 .recommendation-header {
+  position: relative;           
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 2px solid #ecf0f1;
   transition: border-color 0.3s ease;
-  flex-wrap: wrap;
-  gap: 6px;
   flex-shrink: 0;
 }
 
@@ -74,11 +72,15 @@
 }
 
 .recommendation-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 18px;
   font-weight: 700;
   color: #2c3e50;
   margin: 0;
   transition: color 0.3s ease;
+  white-space: nowrap;          
 }
 
 .recommendation-title.dark-text {

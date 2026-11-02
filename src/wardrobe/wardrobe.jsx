@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../config/api';
 import './wardrobe.css';
 
 const Wardrobe = () => {
@@ -10,7 +9,9 @@ const Wardrobe = () => {
   const [filter, setFilter] = useState('All');
   const [loading, setLoading] = useState(true);
 
-  const API_URL = API_BASE_URL; 
+ 
+  const IP = '192.168.80.129'; 
+  const API_URL = `http://${IP}/fitpicker-api`; 
 
   useEffect(() => {
     loadItems();
@@ -30,7 +31,7 @@ const Wardrobe = () => {
     const username = localStorage.getItem('username');
     
     try {
-      // ✅ PALITAN NG IP ITO
+     
       const response = await fetch(`${API_URL}/get_clothing.php?username=${username}`);
       const result = await response.json();
       
@@ -54,7 +55,7 @@ const Wardrobe = () => {
       const username = localStorage.getItem('username');
       
       try {
-        // ✅ PALITAN NG IP ITO
+     
         const response = await fetch(`${API_URL}/delete_clothing.php`, {
           method: 'POST',
           headers: {
@@ -100,7 +101,7 @@ const Wardrobe = () => {
           <button className={`back-btn ${darkMode ? 'dark-btn' : ''}`} onClick={() => navigate('/dashboard')}>
             ← Back
           </button>
-          <h1 className={`wardrobe-title ${darkMode ? 'dark-text' : ''}`}>👔 My Wardrobe</h1>
+          <h1 className={`wardrobe-title ${darkMode ? 'dark-text' : ''}`}>▤ My Wardrobe</h1>
         </div>
 
         <div className="wardrobe-stats">

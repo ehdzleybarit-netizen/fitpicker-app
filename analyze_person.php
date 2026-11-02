@@ -41,7 +41,7 @@ function loadEnvFile($paths) {
 }
 
 loadEnvFile([__DIR__ . '/.env', __DIR__ . '/../.env']);
-$apiKey = getenv('GEMINI_API_KEY') ?: ($_ENV['GEMINI_API_KEY'] ?? ($_SERVER['GEMINI_API_KEY'] ?? ''));
+$apiKey = getenv('GEMINI_API_KEY');
 
 if (empty($apiKey)) {
     echo json_encode(['success' => false, 'message' => 'GEMINI_API_KEY is missing from .env']);
@@ -49,11 +49,13 @@ if (empty($apiKey)) {
 }
 
 if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+
+AD_ERR_OK) {
     echo json_encode(['success' => false, 'message' => 'No image file uploaded']);
     exit;
 }
 
-$occasion = isset($_POST['occasion']) && !empty($_POST['occasion']) ? trim($_POST['occasion']) : 'Casual';
+$occasion = isset($_POST['occasion']) && !empty($_POST['occasion']) ? trim($_POST['occasion']) : 'Casual'; $occasion = preg_replace('/[^a-zA-Z0-9 ]/', '', $occasion);
 
 $rawImagePath = $_FILES['image']['tmp_name'];
 $originalMime = mime_content_type($rawImagePath) ?: 'image/jpeg';
@@ -120,7 +122,7 @@ Return ONLY valid raw JSON with no Markdown backticks matching this schema:
   ]
 }";
 
-$modelsToTry = ['gemini-flash-lite-latest', 'gemini-2.5-flash-lite', 'gemini-2.0-flash'];
+$modelsToTry = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3-flash-preview', 'gemini-flash-latest'];
 $geminiParsed = null;
 
 foreach ($modelsToTry as $modelName) {
@@ -221,7 +223,7 @@ function prepareOptimizedImage($srcPath, $targetWidth = 768, $targetHeight = 102
 }
 
 function runVirtualTryon($personPath, $garmentPath, $occasion = 'Casual') {
-    $hfToken = getenv('HUGGINGFACE_API_KEY') ?: ($_ENV['HUGGINGFACE_API_KEY'] ?? ($_SERVER['HUGGINGFACE_API_KEY'] ?? ''));
+ $hfToken = getenv('HUGGINGFACE_API_KEY');
     if (empty($hfToken)) {
         return ['success' => false, 'error' => 'HUGGINGFACE_API_KEY not configured in .env'];
     }

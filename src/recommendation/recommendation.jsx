@@ -10,8 +10,8 @@ const Recommendation = () => {
   const [occasion, setOccasion] = useState('Sporty');
   const [stats, setStats] = useState({ total: 0, filtered: 0, outfits: 0 });
 
-  // ===== IP ADDRESS NG PC MO =====
-  const IP = '192.168.1.61';
+  
+  const IP = '192.168.80.129';
   const API_URL = `http://${IP}/fitpicker-api`;
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const Recommendation = () => {
 
   // ===== GENERATE RECOMMENDATIONS =====
   const generateRecommendationsWithOccasion = (wardrobe, selectedOccasion) => {
-    console.log('🔍 Generating for occasion:', selectedOccasion);
+    console.log('⌕ Generating for occasion:', selectedOccasion);
     console.log('📦 Wardrobe items:', wardrobe);
 
     // Filter by style (hindi occasion)
@@ -60,6 +60,7 @@ const Recommendation = () => {
 
     console.log('📊 Filtered items:', items.length);
 
+    // Paghiwalayin ang Tops at Bottoms
     const tops = items.filter(i => {
       const type = (i.type || '').toLowerCase();
       return ['top', 'shirt', 't-shirt', 'blouse', 'jacket', 'hoodie', 'sweater', 'tshirt'].includes(type);
@@ -75,7 +76,7 @@ const Recommendation = () => {
 
     let outfitList = [];
 
-  
+    // Gumawa ng outfits (Top + Bottom)
     tops.forEach(top => {
       bottoms.forEach(bottom => {
         outfitList.push({
@@ -87,7 +88,7 @@ const Recommendation = () => {
       });
     });
 
-    
+    // I-sort by score
     outfitList.sort((a, b) => b.score - a.score);
 
     setStats({
@@ -124,17 +125,17 @@ const Recommendation = () => {
       }
     }
     
-   
+    // 2. Same style = good match
     if ((top.style || '').toLowerCase() === (bottom.style || '').toLowerCase()) {
       score += 8;
     }
     
-   
+    // 3. Color variety bonus
     if (topColor !== bottomColor) {
       score += 5;
     }
     
-   
+    // 4. May kulay bonus
     if (topColor && topColor !== 'no color') score += 2;
     if (bottomColor && bottomColor !== 'no color') score += 2;
     
@@ -143,9 +144,9 @@ const Recommendation = () => {
 
   // ===== SCORE LABELS =====
   const getScoreLabel = (score) => {
-    if (score >= 25) return 'Perfect Match! ⭐';
-    if (score >= 20) return 'Excellent Match! 🔥';
-    if (score >= 15) return 'Great Match! 👍';
+    if (score >= 25) return 'Perfect Match! ';
+    if (score >= 20) return 'Excellent Match! ';
+    if (score >= 15) return 'Great Match! ';
     if (score >= 10) return 'Good Match';
     if (score >= 5) return 'Decent Match';
     return 'Try Different';
@@ -190,10 +191,8 @@ const Recommendation = () => {
           <button className={`back-btn ${darkMode ? 'dark-btn' : ''}`} onClick={() => navigate('/dashboard')}>
             ← Back
           </button>
-          <h1 className={`recommendation-title ${darkMode ? 'dark-text' : ''}`}>🤖 AI Recommendations</h1>
-          <button className={`btn-dark-mode ${darkMode ? 'dark-btn-mode' : ''}`} onClick={toggleDarkMode}>
-            {darkMode ? '☀️' : '🌙'}
-          </button>
+          <h1 className={`recommendation-title ${darkMode ? 'dark-text' : ''}`}>⌬ AI Recommendations</h1>
+          
         </div>
 
         {/* ===== OCCASION SELECTOR ===== */}
@@ -215,7 +214,7 @@ const Recommendation = () => {
               <option value="Trendy">Trendy</option>
             </select>
             <button className="btn-refresh" onClick={handleRefresh}>
-              🔄 Refresh
+              ⟳ Refresh
             </button>
           </div>
         </div>
@@ -246,7 +245,7 @@ const Recommendation = () => {
           </div>
         ) : outfits.length === 0 ? (
           <div className={`empty-state ${darkMode ? 'dark-empty' : ''}`}>
-            <span className="empty-icon">📋</span>
+            <span className="empty-icon">☷</span>
             <h3 className={darkMode ? 'dark-text' : ''}>No outfits found</h3>
             <p className={darkMode ? 'dark-subtext' : ''}>
               Items with style "{occasion}": {stats.filtered} found.<br />
@@ -260,20 +259,20 @@ const Recommendation = () => {
           <div className="outfits-grid">
             {outfits.map((outfit, index) => (
               <div key={index} className={`outfit-card ${darkMode ? 'dark-item' : ''}`}>
-                {}
+                {/* Best Match Badge */}
                 {index === 0 && <div className="best-match-badge">🏆 Best Match</div>}
                 
-                {}
+                {/* Outfit Number */}
                 <div className="outfit-number">#{index + 1}</div>
                 
-                {}
+                {/* Score */}
                 <div className="outfit-score" style={{ color: getScoreColor(outfit.score) }}>
                   Score: {outfit.score}/27 ({Math.round((outfit.score / 27) * 100)}%) - {getScoreLabel(outfit.score)}
                 </div>
                 
                 {/* ===== OUTFIT COMBINATION ===== */}
                 <div className="outfit-combination">
-                  {}
+                  {/* TOP */}
                   <div className="outfit-item">
                     <div className="item-image-container">
                       {outfit.top && outfit.top.image ? (
@@ -293,10 +292,10 @@ const Recommendation = () => {
                     </div>
                   </div>
 
-                  {}
+                  {/* PLUS SIGN */}
                   <div className="outfit-arrow">➕</div>
 
-                  {}
+                  {/* BOTTOM */}
                   <div className="outfit-item">
                     <div className="item-image-container">
                       {outfit.bottom && outfit.bottom.image ? (
@@ -317,7 +316,7 @@ const Recommendation = () => {
                   </div>
                 </div>
 
-                {}
+                {/* Outfit Type */}
                 <div className="outfit-type">{outfit.type}</div>
               </div>
             ))}
