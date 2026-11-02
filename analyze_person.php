@@ -41,7 +41,7 @@ function loadEnvFile($paths) {
 }
 
 loadEnvFile([__DIR__ . '/.env', __DIR__ . '/../.env']);
-$apiKey = "AQ.Ab8RN6LcVMRxALd9433nqjBmtxvHgB5j8GeoU9DQdU9a3z5NAg";
+$apiKey = getenv('GEMINI_API_KEY');
 
 if (empty($apiKey)) {
     echo json_encode(['success' => false, 'message' => 'GEMINI_API_KEY is missing from .env']);
@@ -49,6 +49,8 @@ if (empty($apiKey)) {
 }
 
 if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+
+AD_ERR_OK) {
     echo json_encode(['success' => false, 'message' => 'No image file uploaded']);
     exit;
 }
@@ -221,7 +223,7 @@ function prepareOptimizedImage($srcPath, $targetWidth = 768, $targetHeight = 102
 }
 
 function runVirtualTryon($personPath, $garmentPath, $occasion = 'Casual') {
-  $hfToken = "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";
+ $hfToken = getenv('HUGGINGFACE_API_KEY');
     if (empty($hfToken)) {
         return ['success' => false, 'error' => 'HUGGINGFACE_API_KEY not configured in .env'];
     }
