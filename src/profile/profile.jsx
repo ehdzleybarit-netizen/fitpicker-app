@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../config/api';
 import './profile.css';
+import { supabase } from '../config/supabase';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -52,27 +53,32 @@ const Profile = () => {
     fetchProfile(user);
   };
 
-  const fetchProfile = async (user) => {
+    const fetchProfile = async (user) => {
     try {
+     
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('username', user)
+        .single();
 
-      const response = await fetch(`${API_BASE_URL}/get_profile.php?username=${user}`);
-      const result = await response.json();
-      
-      if (result.success) {
-        const data = {
-          fullName: result.data.full_name || '',
-          email: result.data.email || '',
-          age: result.data.age || '18-24',
-          skinTone: result.data.skin_tone || 'Medium',
-          bodyShape: result.data.body_shape || 'Slim',
-          preferredStyle: result.data.preferred_style || 'Casual',
-          favoriteColors: result.data.favorite_colors ? JSON.parse(result.data.favorite_colors) : []
+      if (error && error.code !== 'PGRST116') throw error; // PGRST116 = no rows found
+
+      if (data) {
+        const profileData = {
+          fullName: data.full_name || '',
+          email: data.email || '',
+          age: data.age || '18-24',
+          skinTone: data.skin_tone || 'Medium',
+          bodyShape: data.body_shape || 'Slim',
+          preferredStyle: data.preferences || 'Casual',
+          favoriteColors: [] // Kung may colors sa DB, ilagay dito
         };
-        setProfile(data);
-        localStorage.setItem('profile', JSON.stringify(data));
+        setProfile(profileData);
+        localStorage.setItem('profile', JSON.stringify(profileData));
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      console.error('Error fetching profile from Supabase:', error);
     }
   };
 
@@ -105,45 +111,38 @@ const Profile = () => {
     });
   };
 
-  const handleSave = async (e) => {
+    const handleSave = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
 
+    // I-save muna sa localStorage (para may backup)
     localStorage.setItem('profile', JSON.stringify(profile));
 
-    const profileData = {
-      username: username,
-      fullName: profile.fullName,
-      email: profile.email,
-      age: profile.age,
-      skinTone: profile.skinTone,
-      bodyShape: profile.bodyShape,
-      preferredStyle: profile.preferredStyle,
-      favoriteColors: JSON.stringify(profile.favoriteColors)
-    };
-
     try {
-      const response = await fetch(`${API_BASE_URL}/update_profile.php`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(profileData)
-      });
+      // I-save o i-update sa Supabase (upsert)
+      const { error } = await supabase
+        .from('profiles')
+        .upsert([
+          {
+            username: username,
+            full_name: profile.fullName,
+            email: profile.email,
+            age: profile.age,
+            skin_tone: profile.skinTone,
+            body_shape: profile.bodyShape,
+            preferences: profile.preferredStyle
+          }
+        ], { onConflict: 'username' });
 
-      const result = await response.json();
+      if (error) throw error;
 
-      if (result.success) {
-        setMessage('✓ Profile saved successfully!');
-        setMessageType('success');
-      } else {
-        setMessage('✗ ' + result.message);
-        setMessageType('error');
-      }
+      setMessage('✓ Profile saved successfully!');
+      setMessageType('success');
+
     } catch (error) {
-      console.error('Error:', error);
-      setMessage('✗ Connection error! Make sure XAMPP is running.');
+      console.error('Save error:', error);
+      setMessage('✗ Failed to save profile: ' + error.message);
       setMessageType('error');
     }
 

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../config/supabase';
 import './addclothing.css';
 
 const AddClothing = () => {
@@ -78,59 +79,66 @@ const AddClothing = () => {
     }
   };
 
-  const handleSave = async () => {
-    if (!image) {
-      alert('Please take or upload a photo of your clothing!');
-      return;
-    }
+   const handleSave = async () => {
+  if (!image) {
+    alert('Please take or upload a photo of your clothing!');
+    return;
+  }
 
-    setLoading(true);
-    const username = localStorage.getItem('username');
+  setLoading(true);
+  const username = localStorage.getItem('username');
+
+  try {
+    // 1. I-convert ang Base64 image papuntang File/Blob
+    const response = await fetch(image);
+    const blob = await response.blob();
     
-    const clothingData = {
-      username: username,
-      image: image,
-      type: clothingType,
-      color: color,
-      style: style,
-      occasion: occasion,
-      date: new Date().toLocaleDateString()
-    };
+    // 2. Gumawa ng unique filename
+    const fileName = `${username}_${Date.now()}.jpg`;
 
-    console.log('Saving to database:', clothingData);
+    // 3. I-upload sa Supabase Storage (clothing-images bucket)
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('clothing-images')
+      .upload(fileName, blob, { contentType: 'image/jpeg' });
 
-    try {
-      const response = await fetch('http://192.168.80.129/fitpicker-api/save_clothing.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(clothingData)
-      });
+    if (uploadError) throw uploadError;
 
-      const result = await response.json();
-      console.log('Response from server:', result);
+    // 4. Kunin ang public URL ng image
+    const { data: urlData } = supabase.storage
+      .from('clothing-images')
+      .getPublicUrl(fileName);
 
-      if (result.success) {
-        alert('✓ Clothing item saved to database successfully!');
-        setImage(null);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
+    const publicImageUrl = urlData.publicUrl;
+
+    // 5. I-save ang data (kasama ang URL) sa clothing_items table
+    const { error: dbError } = await supabase
+      .from('clothing_items')
+      .insert([
+        {
+          username: username,
+          image: publicImageUrl, // URL na, hindi na Base64
+          type: clothingType,
+          color: color,
+          style: style,
+          occasion: occasion,
+          date_added: new Date().toISOString().split('T')[0]
         }
-        const existingItems = JSON.parse(localStorage.getItem('clothingItems') || '[]');
-        existingItems.push({ ...clothingData, id: Date.now() });
-        localStorage.setItem('clothingItems', JSON.stringify(existingItems));
-        navigate('/wardrobe');
-      } else {
-        alert('✗ ' + result.message);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('✗ Connection error! Make sure XAMPP is running.');
-    }
+      ]);
 
-    setLoading(false);
-  };
+    if (dbError) throw dbError;
+
+    alert('✓ Clothing item saved successfully!');
+    setImage(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+    navigate('/wardrobe');
+
+  } catch (error) {
+    console.error('Save error:', error);
+    alert('✗ Failed to save: ' + error.message);
+  }
+
+  setLoading(false);
+};
 
   return (
     <div className={`add-clothing-container ${darkMode ? 'dark-mode' : ''}`}>

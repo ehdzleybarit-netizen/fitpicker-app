@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../config/api';
+import { supabase } from '../config/supabase';  
 import './register.css';
 
 const Register = () => {
@@ -24,66 +25,70 @@ const Register = () => {
     });
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+const handleRegister = async (e) => {
+  e.preventDefault();
 
-    const { fullName, email, username, password, confirmPassword } = formData;
+  const { username, password, confirmPassword, email, fullName } = formData;
 
-    if (!fullName || !email || !username || !password) {
-      setMessage('Please fill in all required fields!');
+  // Validation
+  if (!username.trim() || !password.trim() || !email.trim()) {
+    setMessage('Please fill in all required fields!');
+    setMessageType('error');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    setMessage('Passwords do not match!');
+    setMessageType('error');
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    // I-check kung existing na ang username
+    const { data: existingUser } = await supabase
+      .from('users')
+      .select('username')
+      .eq('username', username.trim())
+      .maybeSingle();
+
+    if (existingUser) {
+      setMessage('Username already exists!');
       setMessageType('error');
+      setLoading(false);
       return;
     }
 
-    if (password !== confirmPassword) {
-      setMessage('Passwords do not match!');
-      setMessageType('error');
-      return;
-    }
+    // I-save sa Supabase
+    const { error } = await supabase
+      .from('users')
+      .insert([
+        {
+          username: username.trim(),
+          password: password.trim(), // Plain text muna para sa testing
+          email: email.trim(),
+          full_name: fullName.trim()
+        }
+      ]);
 
-    if (password.length < 6) {
-      setMessage('Password must be at least 6 characters!');
-      setMessageType('error');
-      return;
-    }
+    if (error) throw error;
 
-    setLoading(true);
-    setMessage('');
+    setMessage('✓ Registration successful! Please login.');
+    setMessageType('success');
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/register.php`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fullName: fullName,
-          email: email,
-          username: username,
-          password: password
-        })
-      });
+    setTimeout(() => {
+      navigate('/login');
+    }, 1500);
 
-      const result = await response.json();
+  } catch (error) {
+    console.error('Register error:', error);
+    setMessage('✗ Registration failed: ' + error.message);
+    setMessageType('error');
+  }
 
-      if (result.success === true) {
-        setMessage('✓ Registration successful! Redirecting to login...');
-        setMessageType('success');
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
-      } else {
-        setMessage('✗ ' + result.message);
-        setMessageType('error');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setMessage('✗ Connection error! Make sure XAMPP is running.');
-      setMessageType('error');
-    }
-
-    setLoading(false);
-  };
+  setLoading(false);
+};
 
   return (
     <div className="register-container">

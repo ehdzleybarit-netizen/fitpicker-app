@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CapacitorHttp } from '@capacitor/core';
-import { API_BASE_URL } from '../config/api';
+import { supabase } from '../config/supabase';
 import './login.css';
 
 const Login = () => {
@@ -27,56 +26,37 @@ const Login = () => {
     setMessage('');
 
     try {
-      const response = await CapacitorHttp.post({
+          const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username.trim())
+      .single();
 
-        url: `${API_BASE_URL}/login.php`,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: {
-          username: username,
-          password: password
-        }
-      });
+    if (error || !data) {
+      setMessage('✗ Invalid username or password!');
+      setMessageType('error');
+      setLoading(false);
+      return;
+    }
 
-      console.log('Raw response:', response);
-      console.log('Response data:', response.data);
-      console.log('Type of response.data:', typeof response.data);
+    if (data.password !== password.trim()) {
+      setMessage('✗ Invalid username or password!');
+      setMessageType('error');
+      setLoading(false);
+      return;
+    }
 
-      // ===== I-PARSE KUNG STRING ANG RESPONSE =====
-      let result = response.data;
-      
-      if (typeof result === 'string') {
-        try {
-          result = JSON.parse(result);
-        } catch (parseError) {
-          console.error('JSON parse error:', parseError);
-          setMessage('✗ Invalid response from server');
-          setMessageType('error');
-          setLoading(false);
-          return;
-        }
-      }
+    // Success
+    localStorage.setItem('username', data.username);
+    localStorage.setItem('user', JSON.stringify(data));
+    setMessage('✓ Login successful! Welcome ' + data.username + '!');
+    setMessageType('success');
+    
+    setTimeout(() => {
+      navigate('/dashboard');
+    }, 1000);
 
-      console.log('Parsed result:', result);
-
-      if (result && result.success === true) {
-        // ===== I-SAVE ANG USER INFO =====
-        const userName = result.user?.username || username;
-        localStorage.setItem('username', userName);
-        localStorage.setItem('user', JSON.stringify(result.user));
-        
-        setMessage('✓ Login successful! Welcome ' + userName + '!');
-        setMessageType('success');
-        
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 1000);
-      } else {
-        setMessage('✗ ' + (result?.message || 'Login failed'));
-        setMessageType('error');
-        setPassword('');
-      }
+    
     } catch (error) {
       console.error('Error:', error);
       setMessage('✗ Connection error! Make sure XAMPP is running.');

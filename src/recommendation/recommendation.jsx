@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { supabase } from '../config/supabase';
 import { useNavigate } from 'react-router-dom';
 import './recommendation.css';
 
@@ -6,100 +7,70 @@ const Recommendation = () => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [outfits, setOutfits] = useState([]);
   const [occasion, setOccasion] = useState('Sporty');
   const [stats, setStats] = useState({ total: 0, filtered: 0, outfits: 0 });
-
+  const [clothingItems, setClothingItems] = useState([]); 
+  const [outfits, setOutfits] = useState([]);
   
-  const IP = '192.168.80.129';
-  const API_URL = `http://${IP}/fitpicker-api`;
-
   useEffect(() => {
     const savedDarkMode = localStorage.getItem('darkMode');
     if (savedDarkMode) {
       setDarkMode(JSON.parse(savedDarkMode));
     }
     loadItemsAndGenerate();
-  }, []);
+ }, [occasion]); 
 
-  // ===== LOAD ITEMS FROM DATABASE =====
-  const loadItemsAndGenerate = async () => {
-    setLoading(true);
-    const username = localStorage.getItem('username') || 'admin';
-    
-    try {
-      const response = await fetch(`${API_URL}/get_clothing.php?username=${username}`);
-      const result = await response.json();
-      
-      if (result.success) {
-        console.log('✅ Loaded items:', result.data);
-        localStorage.setItem('clothingItems', JSON.stringify(result.data));
-        generateRecommendationsWithOccasion(result.data, occasion);
-      } else {
-        const items = JSON.parse(localStorage.getItem('clothingItems') || '[]');
-        generateRecommendationsWithOccasion(items, occasion);
-      }
-    } catch (error) {
-      console.error('❌ Error loading items:', error);
-      const items = JSON.parse(localStorage.getItem('clothingItems') || '[]');
-      generateRecommendationsWithOccasion(items, occasion);
-    }
-  };
+  
+ const loadItemsAndGenerate = async () => {
+  setLoading(true);
+  const username = localStorage.getItem('username');
 
-  // ===== GENERATE RECOMMENDATIONS =====
-  const generateRecommendationsWithOccasion = (wardrobe, selectedOccasion) => {
-    console.log('⌕ Generating for occasion:', selectedOccasion);
-    console.log('📦 Wardrobe items:', wardrobe);
+  try {
+    const { data, error } = await supabase
+      .from('clothing_items')
+      .select('*')
+      .eq('username', username);
 
-    // Filter by style (hindi occasion)
-    let items = wardrobe.filter(item => {
-      const itemStyle = (item.style || '').toLowerCase().trim();
-      const occasionLower = selectedOccasion.toLowerCase().trim();
-      return itemStyle === occasionLower;
-    });
+    if (error) throw error;
 
-    console.log('📊 Filtered items:', items.length);
+    // 1. I-filter base sa occasion (case-insensitive at walang space)
+    const filtered = data.filter(item => 
+      (item.occasion || '').trim().toLowerCase() === occasion.trim().toLowerCase()
+    );
 
-    // Paghiwalayin ang Tops at Bottoms
-    const tops = items.filter(i => {
-      const type = (i.type || '').toLowerCase();
-      return ['top', 'shirt', 't-shirt', 'blouse', 'jacket', 'hoodie', 'sweater', 'tshirt'].includes(type);
-    });
-    
-    const bottoms = items.filter(i => {
-      const type = (i.type || '').toLowerCase();
-      return ['bottom', 'pants', 'jeans', 'shorts', 'skirt', 'trousers'].includes(type);
-    });
+    // 2. Ihiwalay ang Top at Bottom
+    const tops = filtered.filter(item => (item.type || '').toLowerCase() === 'top');
+    const bottoms = filtered.filter(item => (item.type || '').toLowerCase() === 'bottom');
 
-    console.log('👕 Tops:', tops);
-    console.log('👖 Bottoms:', bottoms);
-
-    let outfitList = [];
-
-    // Gumawa ng outfits (Top + Bottom)
-    tops.forEach(top => {
-      bottoms.forEach(bottom => {
-        outfitList.push({
-          top: top,
-          bottom: bottom,
-          type: 'Top + Bottom',
-          score: calculateScore(top, bottom)
-        });
-      });
-    });
-
-    // I-sort by score
-    outfitList.sort((a, b) => b.score - a.score);
-
+    // 3. I-set ang Stats
     setStats({
-      total: wardrobe.length,
-      filtered: items.length,
-      outfits: outfitList.length
+      total: data.length || 0,
+      filtered: filtered.length || 0,
+      outfits: (tops.length > 0 && bottoms.length > 0) ? 1 : 0
     });
 
-    setOutfits(outfitList);
+    // 4. I-generate ang Outfit kung may Top at Bottom
+    if (tops.length > 0 && bottoms.length > 0) {
+      const bestTop = tops[0];
+      const bestBottom = bottoms[0];
+      const score = calculateScore(bestTop, bestBottom); // Siguraduhing nasa baba ang function na ito
+
+      setOutfits([{
+        top: bestTop,
+        bottom: bestBottom,
+        score: score,
+        type: `${occasion} Look`
+      }]);
+    } else {
+      setOutfits([]);
+    }
+
+  } catch (error) {
+    console.error('Fetch error:', error);
+  } finally {
     setLoading(false);
-  };
+  }
+};
 
   // ===== SCORING SYSTEM =====
   const calculateScore = (top, bottom) => {
@@ -168,7 +139,6 @@ const Recommendation = () => {
     setOccasion(newOccasion);
     
     const items = JSON.parse(localStorage.getItem('clothingItems') || '[]');
-    generateRecommendationsWithOccasion(items, newOccasion);
   };
 
   // ===== REFRESH =====

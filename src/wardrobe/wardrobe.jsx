@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './wardrobe.css';
+import { supabase } from '../config/supabase';
 
 const Wardrobe = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Wardrobe = () => {
   const [loading, setLoading] = useState(true);
 
  
-  const IP = '192.168.80.129'; 
+  const IP = '192.168.1.61';
   const API_URL = `http://${IP}/fitpicker-api`; 
 
   useEffect(() => {
@@ -27,57 +28,47 @@ const Wardrobe = () => {
   }, []);
 
   const loadItems = async () => {
-    setLoading(true);
-    const username = localStorage.getItem('username');
-    
-    try {
-     
-      const response = await fetch(`${API_URL}/get_clothing.php?username=${username}`);
-      const result = await response.json();
-      
-      if (result.success) {
-        setClothingItems(result.data);
-        localStorage.setItem('clothingItems', JSON.stringify(result.data));
-      } else {
-        const items = JSON.parse(localStorage.getItem('clothingItems') || '[]');
-        setClothingItems(items);
-      }
-    } catch (error) {
-      console.error('Error loading items:', error);
-      const items = JSON.parse(localStorage.getItem('clothingItems') || '[]');
-      setClothingItems(items);
-    }
+  setLoading(true);
+  const username = localStorage.getItem('username');
+
+  try {
+    const { data, error } = await supabase
+      .from('clothing_items')
+      .select('*')
+      .eq('username', username)
+      .order('id', { ascending: false });
+
+    if (error) throw error;
+    setClothingItems(data || []);
+  } catch (error) {
+    console.error('Fetch error:', error);
+    alert('Failed to load wardrobe: ' + error.message);
+  } finally {
     setLoading(false);
-  };
+  }
+};
 
-  const deleteItem = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      const username = localStorage.getItem('username');
+    const deleteItem = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
+
+    try {
+      // Direktang i-delete sa Supabase
+      const { error } = await supabase
+        .from('clothing_items')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // I-update ang UI (tanggalin sa listahan)
+      const updatedItems = clothingItems.filter(item => item.id !== id);
+      setClothingItems(updatedItems);
       
-      try {
-     
-        const response = await fetch(`${API_URL}/delete_clothing.php`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: id, username: username })
-        });
+      alert('✓ Item deleted successfully!');
 
-        const result = await response.json();
-
-        if (result.success) {
-          const updatedItems = clothingItems.filter(item => item.id !== id);
-          setClothingItems(updatedItems);
-          localStorage.setItem('clothingItems', JSON.stringify(updatedItems));
-          alert('✅ Item deleted successfully!');
-        } else {
-          alert('❌ Failed to delete item: ' + result.message);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('❌ Connection error! Make sure XAMPP is running.');
-      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      alert('✗ Failed to delete item: ' + error.message);
     }
   };
 
